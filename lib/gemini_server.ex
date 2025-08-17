@@ -65,19 +65,4 @@ defmodule GeminiServer.Client do
     |> List.first()
     |> Map.get("text")
   end
-
-  def clean_json(json_string) do
-    Regex.replace(
-      ~r/"text":\s*"(.*?)```glsl\\n(.*?)\\n```(.*?)"/s,
-      json_string,
-      fn _, before, code, rest ->
-        cleaned_code =
-          code
-          |> String.replace("\\", "\\\\")
-          |> String.replace("\"", "\\\"")
-
-        "\"text\": \"#{before}#{cleaned_code}#{rest}\""
-      end
-    )
-  end
 end
